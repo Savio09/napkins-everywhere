@@ -31,6 +31,7 @@ const Header = () => {
               style={{
                 objectFit: "contain",
                 height: "100px",
+                width: "auto",
               }}
             />
           </Link>

@@ -24,3 +24,37 @@ body {
   color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes customMarqueeAnimation {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    /* Each animated block translates by its own full width plus the defined gap */
+    transform: translateX(
+      calc(-100% - var(--banner-gap, 20px))
+    ); /* Default gap if not set */
+  }
+}
+
+/* Class for the individual scrolling blocks (the children) */
+.custom-scrolling-banner-content {
+  animation-name: customMarqueeAnimation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform; /* Hint for browser optimization */
+  backface-visibility: hidden; /* Can improve rendering quality */
+  /* flex-shrink: 0; min-width: 100%; will be applied via Tailwind on the element */
+}
+
+/* Class for the parent container, handles hover pause */
+.scrolling-banner-container:hover .custom-scrolling-banner-content {
+  animation-play-state: paused;
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .custom-scrolling-banner-content {
+    animation: none !important;
+  }
+}
