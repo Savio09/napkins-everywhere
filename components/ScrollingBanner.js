@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import Link from "next/link";
 
 const ScrollingTextBanner = ({ text, className = "", speed = "slow" }) => {
   const bannerGap = "20px";
@@ -27,14 +28,18 @@ const ScrollingTextBanner = ({ text, className = "", speed = "slow" }) => {
         className={scrollingBlockBaseClasses}
         style={{ animationDuration: animationDurationValue }}
       >
-        <p className={textPClasses}>{repeatedTextContent}</p>
+        <Link href="#">
+          <p className={textPClasses}>{repeatedTextContent}</p>
+        </Link>
       </div>
       <div
         className={scrollingBlockBaseClasses}
         aria-hidden="true"
         style={{ animationDuration: animationDurationValue }}
       >
-        <p className={textPClasses}>{repeatedTextContent}</p>
+        <Link href="#">
+          <p className={textPClasses}>{repeatedTextContent}</p>
+        </Link>
       </div>
     </div>
   );

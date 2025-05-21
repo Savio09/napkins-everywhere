@@ -1,0 +1,56 @@
+import Link from "next/link";
+
+export default function ImageOverlay({
+  isLatestIssueBgLoaded,
+  coverImageUrl,
+  latestIssueLink,
+  latestIssueTitle,
+  sectionTitle,
+}) {
+  return (
+    <section
+      className={`
+          dy-latest-issue h-[90vh] bg-cover bg-center bg-no-repeat 
+          relative flex  justify-center
+          transition-opacity duration-1000 ease-in-out
+          before:content-[''] before:absolute before:inset-0 before:bg-black before:z-0
+          before:transition-opacity before:duration-700 before:ease-in-out
+          ${
+            isLatestIssueBgLoaded
+              ? "opacity-100 before:opacity-90"
+              : "opacity-0 before:opacity-0"
+          }
+        `}
+      style={{
+        backgroundImage:
+          isLatestIssueBgLoaded && coverImageUrl
+            ? `url('${coverImageUrl}')`
+            : "none",
+      }}
+    >
+      <div
+        className={`
+            issue-text w-[85vw] mx-auto mt-[200px] text-white 
+            relative z-10 p-6 rounded-lg
+            transition-opacity duration-1000 ease-in-out delay-300
+            ${isLatestIssueBgLoaded ? "opacity-100" : "opacity-0"}
+          `}
+      >
+        <h3 className="text-xl md:text-2xl font-semibold mb-2">
+          {sectionTitle}
+        </h3>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          {latestIssueTitle || "Loading..."}
+        </h1>
+        <div className="cta">
+          <Link
+            href={latestIssueLink}
+            className="bg-[#FF5900] text-white py-3 px-6 rounded-full text-lg font-semibold transition-colors duration-300 inline-block lowercase"
+          >
+            Read Now →
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -30,26 +30,51 @@ body {
     transform: translateX(0%);
   }
   to {
-    /* Each animated block translates by its own full width plus the defined gap */
-    transform: translateX(
-      calc(-100% - var(--banner-gap, 20px))
-    ); /* Default gap if not set */
+    transform: translateX(calc(-100% - var(--banner-gap, 20px)));
   }
 }
 
-/* Class for the individual scrolling blocks (the children) */
 .custom-scrolling-banner-content {
   animation-name: customMarqueeAnimation;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  will-change: transform; /* Hint for browser optimization */
-  backface-visibility: hidden; /* Can improve rendering quality */
-  /* flex-shrink: 0; min-width: 100%; will be applied via Tailwind on the element */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* Class for the parent container, handles hover pause */
 .scrolling-banner-container:hover .custom-scrolling-banner-content {
   animation-play-state: paused;
+}
+
+/* globals.css */
+/* ... your existing CSS ... */
+
+.btn-slide-up-hover {
+  /* The initial state is set by Tailwind (bg-[#0070ae], text-white) */
+}
+
+.btn-slide-up-hover::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.btn-slide-up-hover:hover::before {
+  transform: scaleX(1); /* Scale up to full height on hover */
+}
+
+.btn-slide-up-hover:hover .z-10 {
+  color: #0071ad;
 }
 
 /* Accessibility: Reduce motion */
