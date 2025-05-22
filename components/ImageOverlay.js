@@ -6,6 +6,8 @@ export default function ImageOverlay({
   latestIssueLink,
   latestIssueTitle,
   sectionTitle,
+  linkText,
+  children,
 }) {
   return (
     <section
@@ -45,9 +47,29 @@ export default function ImageOverlay({
         <div className="cta">
           <Link
             href={latestIssueLink}
-            className="bg-[#FF5900] text-white py-3 px-6 rounded-full text-lg font-semibold transition-colors duration-300 inline-block lowercase"
+            className={
+              linkText
+                ? "bg-[#FF5900] text-white py-3 px-6 rounded-full text-lg font-semibold transition-colors duration-300 inline-block lowercase"
+                : "mb-12"
+            }
           >
-            Read Now →
+            {linkText ? (
+              `${linkText} →`
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#e3e3e3"
+                style={{
+                  marginBlock: "10px",
+                }}
+              >
+                <path d="M360-200v-80h264L160-744l56-56 464 464v-264h80v400H360Z" />
+              </svg>
+            )}
+            {children}
           </Link>
         </div>
       </div>

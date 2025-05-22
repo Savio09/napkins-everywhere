@@ -5,13 +5,26 @@ import ScrollingTextBanner from "@/components/ScrollingBanner";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
+import { useStrapiData } from "@/hooks/useStrapiData";
 
 export default function Home() {
   const [allMagazines, setAllMagazines] = useState([]);
   const [latestIssue, setLatestIssue] = useState(null);
   const [isLatestIssueBgLoaded, setIsLatestIssueBgLoaded] = useState(false);
 
-  const createURL = (path) => {
+  const [storyEntries1, setStoryEntries1] = useState([]);
+  const [storyEntries2, setStoryEntries2] = useState([]);
+  const [storyEntries3, setStoryEntries3] = useState([]);
+
+  const { data: magazineApiData, error: magazinesError } = useStrapiData(
+    "/api/magazines?populate=*"
+  );
+
+  const { data: entriesApiData, error: entriesError } = useStrapiData(
+    "/api/entries?pagination[limit]=15"
+  );
+
+  const createLocalImageURL = (path) => {
     if (!path || path.startsWith("http")) {
       return path || "";
     }
@@ -19,65 +32,62 @@ export default function Home() {
   };
 
   useEffect(() => {
-    async function fetchAndProcessMagazines() {
-      try {
-        const response = await fetch(
-          new Request(createURL("/api/magazines?populate=*"))
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        processMagazinesClientSide(data);
-      } catch (e) {
-        console.error("Error fetching magazines:", e);
-        setLatestIssue(null);
-        setAllMagazines([]);
-      }
-    }
-
-    function processMagazinesClientSide(data) {
-      if (data && data.data && data.data.length > 0) {
-        setAllMagazines([...data.data]);
-        const sortedMagazines = [...data.data].sort((a, b) => {
-          const getIssueNumber = (item) => {
-            const number = item?.issue_number;
-            if (typeof number !== "string") {
-              return -Infinity;
-            }
-            const match = number.match(/issue-(\d+)/i);
-            return match && match[1] ? parseInt(match[1], 10) : -Infinity;
-          };
-          const numA = getIssueNumber(a);
-          const numB = getIssueNumber(b);
-          return numB - numA;
-        });
-        if (sortedMagazines.length > 0) {
-          setLatestIssue(sortedMagazines[0]);
-        } else {
-          setLatestIssue(null);
-        }
+    if (magazineApiData && magazineApiData.data) {
+      const magazines = magazineApiData.data;
+      setAllMagazines([...magazines]);
+      const sortedMagazines = [...magazines].sort((a, b) => {
+        const getIssueNumber = (item) => {
+          const number = item?.issue_number;
+          if (typeof number !== "string") {
+            return -Infinity;
+          }
+          const match = number.match(/issue-(\d+)/i);
+          return match && match[1] ? parseInt(match[1], 10) : -Infinity;
+        };
+        const numA = getIssueNumber(a);
+        const numB = getIssueNumber(b);
+        return numB - numA;
+      });
+      if (sortedMagazines.length > 0) {
+        setLatestIssue(sortedMagazines[0]);
       } else {
         setLatestIssue(null);
-        setAllMagazines([]);
       }
+    } else if (magazinesError) {
+      setLatestIssue(null);
+      setAllMagazines([]);
     }
-    fetchAndProcessMagazines();
-  }, []);
-  console.log(latestIssue);
+  }, [magazineApiData]);
+
+  useEffect(() => {
+    if (entriesApiData && entriesApiData.data) {
+      const fetchedEntries = entriesApiData.data.map((entry) => ({
+        title: entry?.title,
+        slug: entry?.slug,
+        id: entry?.id,
+      }));
+      setStoryEntries1(fetchedEntries.slice(0, 5));
+      setStoryEntries2(fetchedEntries.slice(5, 10));
+      setStoryEntries3(fetchedEntries.slice(10, 15));
+    } else if (entriesError) {
+      setStoryEntries1([]);
+      setStoryEntries2([]);
+      setStoryEntries3([]);
+    }
+  }, [entriesApiData, entriesError]);
+
   const coverImageRelativeUrl = latestIssue?.cover_img[0]?.url;
-  console.log(coverImageRelativeUrl);
 
   const coverImageUrl = coverImageRelativeUrl
-    ? createURL(coverImageRelativeUrl)
+    ? createLocalImageURL(coverImageRelativeUrl)
     : null;
 
   useEffect(() => {
     if (!coverImageUrl) {
-      setIsLatestIssueBgLoaded(true); // No image to load, or treat as loaded
+      setIsLatestIssueBgLoaded(true);
       return;
     }
-    const img = new window.Image(); // Use window.Image for clarity in Next.js client components
+    const img = new window.Image();
     img.src = coverImageUrl;
     const handleLoad = () => setIsLatestIssueBgLoaded(true);
     img.addEventListener("load", handleLoad);
@@ -92,30 +102,36 @@ export default function Home() {
 
   return (
     <div className="landing-pg">
-      <section className="hero-section w-[85vw] mx-auto py-20">
-        <div
-          className="text"
-          style={{
-            maxWidth: "800px",
-          }}
-        >
-          <div className="header-text">
-            <h1 className="text-[12rem] text-[#FF5900] font-bold">Napkins</h1>
+      <section className="mouse-animation">
+        {/** This is where the mouse motion tracking animation would go */}
+        <section className="hero-section w-[85vw] mx-auto py-20">
+          <div
+            className="text"
+            style={{
+              maxWidth: "800px",
+            }}
+          >
+            <div className="header-text">
+              <h1 className="text-[12rem] text-[#FF5900] font-bold">Napkins</h1>
+            </div>
+            <div className="font-bold text-6xl flex gap-16">
+              <p className="text-[#0070ae]">to</p>
+              <p>power and propel the art of interdisciplinary imagination</p>
+            </div>
           </div>
-          <div className="font-bold text-6xl flex gap-16">
-            <p className="text-[#0070ae]">to</p>
-            <p>power and propel the art of interdisciplinary imagination</p>
+          <div className="arrow-dwn my-20">
+            <ScrollArrow />
           </div>
-        </div>
-        <div className="arrow-dwn my-20">
-          <ScrollArrow />
-        </div>
+        </section>
       </section>
       <section>
         <div className="banner">
           <ScrollingTextBanner
-            text="Winter 2024 Issue is out now"
-            className="my-8"
+            items={[
+              { title: "Winter 2024 Issue is out now!", slug: latestIssueSlug },
+            ]}
+            className=""
+            itemBaseLink="/magazines/"
           />
         </div>
         <div className="greet-section flex flex-col gap-10 md:flex-row  w-[85vw] mx-auto py-50 justify-center items-center">
@@ -164,35 +180,65 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/** Latest Issue section */}
       <ImageOverlay
         sectionTitle={"Latest Issue"}
         isLatestIssueBgLoaded={isLatestIssueBgLoaded}
         coverImageUrl={coverImageUrl}
         latestIssueLink={latestIssueLink}
         latestIssueTitle={latestIssueTitle}
+        linkText="read now"
       />
+
+      {/** Peek section */}
       <ImageOverlay
         sectionTitle={"take a peek into"}
         isLatestIssueBgLoaded={isLatestIssueBgLoaded}
         coverImageUrl={"/img/interactive-peek.jpg"}
         latestIssueLink={"/fractal"}
         latestIssueTitle={"our first interactive exhibition"}
-      />
+      >
+        <Image
+          src="/img/interactive-peek.jpg"
+          width={450}
+          height={450}
+          alt="lantern"
+        />
+      </ImageOverlay>
 
-      {/* <section className="peek-section">
-        <div className="peek-info">
-          <p></p>
-          <h1>our first interactive exhibition</h1>
-          <div className="cta">
-            <Image
-              src="/img/interactive-peek.jpg"
-              width={250}
-              height={250}
-              alt="a chinese lantern placed on a table with some popcorns and other snacks."
-            />
-          </div>
+      {/** Explore stories section */}
+      <section className="stories py-20">
+        <div className="w-[85vw] mx-auto">
+          <h3 className="mb-10 font-bold text-[1.5rem]">Explore stories</h3>
         </div>
-      </section> */}
+        {storyEntries1.length > 0 && (
+          <ScrollingTextBanner
+            items={storyEntries1}
+            className="bg-transparent"
+            speed="slow"
+            direction="left"
+            color="text-[#000] hover:text-[#FF5900] transition-all"
+          />
+        )}
+        {storyEntries2.length > 0 && (
+          <ScrollingTextBanner
+            items={storyEntries2}
+            className="bg-transparent"
+            speed="slow"
+            direction="right"
+            color="text-[#000] hover:text-[#FF5900] transition-all"
+          />
+        )}
+        {storyEntries3.length > 0 && (
+          <ScrollingTextBanner
+            items={storyEntries3}
+            className="bg-transparent "
+            speed="slow"
+            direction="left"
+            color="text-[#000] hover:text-[#FF5900] transition-all"
+          />
+        )}
+      </section>
     </div>
   );
 }

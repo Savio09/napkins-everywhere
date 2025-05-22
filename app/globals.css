@@ -25,7 +25,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@keyframes customMarqueeAnimation {
+/* @keyframes customMarqueeAnimation {
   from {
     transform: translateX(0%);
   }
@@ -44,14 +44,7 @@ body {
 
 .scrolling-banner-container:hover .custom-scrolling-banner-content {
   animation-play-state: paused;
-}
-
-/* globals.css */
-/* ... your existing CSS ... */
-
-.btn-slide-up-hover {
-  /* The initial state is set by Tailwind (bg-[#0070ae], text-white) */
-}
+} */
 
 .btn-slide-up-hover::before {
   content: "";
@@ -75,6 +68,54 @@ body {
 
 .btn-slide-up-hover:hover .z-10 {
   color: #0071ad;
+}
+
+.footer a:hover {
+  color: #0071ad;
+  transition: color 0.2s ease-in-out;
+}
+
+@keyframes customMarqueeAnimation {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--banner-gap, 20px)));
+  }
+}
+
+@keyframes customMarqueeAnimationReverse {
+  from {
+    transform: translateX(calc(-100% - var(--banner-gap, 20px)));
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.custom-scrolling-banner-content {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.custom-scrolling-banner-content.scroll-left {
+  animation-name: customMarqueeAnimation;
+}
+
+.custom-scrolling-banner-content.scroll-right {
+  animation-name: customMarqueeAnimationReverse;
+}
+
+.scrolling-banner-container:hover .custom-scrolling-banner-content {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-scrolling-banner-content {
+    animation: none !important;
+  }
 }
 
 /* Accessibility: Reduce motion */
