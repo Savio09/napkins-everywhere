@@ -112,9 +112,11 @@ export default function Home() {
             }}
           >
             <div className="header-text">
-              <h1 className="text-[12rem] text-[#FF5900] font-bold">Napkins</h1>
+              <h1 className="text-[4rem] sm:text-[6rem] lg:text-[12rem] text-[#FF5900] font-bold">
+                Napkins
+              </h1>
             </div>
-            <div className="font-bold text-6xl flex gap-16">
+            <div className="font-bold md:text-6xl md:flex md:flex-row gap-16 sm:flex-col sm:text-3xl flex-col text-4xl">
               <p className="text-[#0070ae]">to</p>
               <p>power and propel the art of interdisciplinary imagination</p>
             </div>
@@ -134,9 +136,9 @@ export default function Home() {
             itemBaseLink="/magazines/"
           />
         </div>
-        <div className="greet-section flex flex-col gap-10 md:flex-row  w-[85vw] mx-auto py-50 justify-center items-center">
+        <div className="greet-section flex flex-col gap-10 md:flex-row  w-[85vw] mx-auto py-30 sm:py-50 justify-center items-center">
           <div className="left-item flex-1">
-            <h1 className=" max-w-[500px] text-[5rem] mb-10">
+            <h1 className=" max-w-[500px] text-[3rem] sm:text-[5rem] mb-10 ">
               Welcome to Napkins!
             </h1>
             <p className="font-bold text-[1.2rem] mb-15 max-w-[600px]">

@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="footer flex w-[95vw] mx-auto justify-between h-[20vh]">
+    <div className="footer flex flex-col lg:flex-row px-5 pt-5 sm:w-[95vw] sm:flex-col mx-auto justify-between h-[20vh]">
       <div className="cta-links">
-        <ul className="flex gap-10 font-bold uppercase mb-8">
+        <ul className="flex gap-3 sm:gap-5 font-bold uppercase mb-8 text-[10px] sm:text-[1rem]">
           <li>
             <Link href="#" className="">
               submit to the magazine
