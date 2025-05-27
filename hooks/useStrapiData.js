@@ -9,7 +9,7 @@ const createStrapiURL = (path) => {
   return `${STRAPI_BASE_URL}${path}`;
 };
 
-export function useStrapiData(endpointPath) {
+export function useStrapiData(endpointPath, autoFetch = true) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -35,8 +35,10 @@ export function useStrapiData(endpointPath) {
   }, [endpointPath]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (autoFetch && endpointPath) {
+      fetchData();
+    }
+  }, [fetchData, autoFetch, endpointPath]);
 
-  return { data, error, refetch: fetchData };
+  return { data, error, fetchData };
 }

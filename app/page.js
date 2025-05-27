@@ -6,58 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useStrapiData } from "@/hooks/useStrapiData";
+import HeroText from "@/components/HeroText";
+import { useMagazineData } from "@/components/context/magazineContext";
+import { createLocalImageURL } from "@/utils/urlConstruct";
 
 export default function Home() {
-  const [allMagazines, setAllMagazines] = useState([]);
-  const [latestIssue, setLatestIssue] = useState(null);
+  const { latestIssue, allMagazines, magazinesError } = useMagazineData();
   const [isLatestIssueBgLoaded, setIsLatestIssueBgLoaded] = useState(false);
 
   const [storyEntries1, setStoryEntries1] = useState([]);
   const [storyEntries2, setStoryEntries2] = useState([]);
   const [storyEntries3, setStoryEntries3] = useState([]);
 
-  const { data: magazineApiData, error: magazinesError } = useStrapiData(
-    "/api/magazines?populate=*"
-  );
-
-  const { data: entriesApiData, error: entriesError } = useStrapiData(
+  const { data: entriesApiData, error: entriesApiError } = useStrapiData(
     "/api/entries?pagination[limit]=15"
   );
-
-  const createLocalImageURL = (path) => {
-    if (!path || path.startsWith("http")) {
-      return path || "";
-    }
-    return "http://localhost:1337" + path;
-  };
-
-  useEffect(() => {
-    if (magazineApiData && magazineApiData.data) {
-      const magazines = magazineApiData.data;
-      setAllMagazines([...magazines]);
-      const sortedMagazines = [...magazines].sort((a, b) => {
-        const getIssueNumber = (item) => {
-          const number = item?.issue_number;
-          if (typeof number !== "string") {
-            return -Infinity;
-          }
-          const match = number.match(/issue-(\d+)/i);
-          return match && match[1] ? parseInt(match[1], 10) : -Infinity;
-        };
-        const numA = getIssueNumber(a);
-        const numB = getIssueNumber(b);
-        return numB - numA;
-      });
-      if (sortedMagazines.length > 0) {
-        setLatestIssue(sortedMagazines[0]);
-      } else {
-        setLatestIssue(null);
-      }
-    } else if (magazinesError) {
-      setLatestIssue(null);
-      setAllMagazines([]);
-    }
-  }, [magazineApiData]);
 
   useEffect(() => {
     if (entriesApiData && entriesApiData.data) {
@@ -69,12 +32,12 @@ export default function Home() {
       setStoryEntries1(fetchedEntries.slice(0, 5));
       setStoryEntries2(fetchedEntries.slice(5, 10));
       setStoryEntries3(fetchedEntries.slice(10, 15));
-    } else if (entriesError) {
+    } else if (entriesApiError) {
       setStoryEntries1([]);
       setStoryEntries2([]);
       setStoryEntries3([]);
     }
-  }, [entriesApiData, entriesError]);
+  }, [entriesApiData, entriesApiError]);
 
   const coverImageRelativeUrl = latestIssue?.cover_img[0]?.url;
 
@@ -112,9 +75,7 @@ export default function Home() {
             }}
           >
             <div className="header-text">
-              <h1 className="text-[4rem] sm:text-[6rem] lg:text-[12rem] text-[#FF5900] font-bold">
-                Napkins
-              </h1>
+              <HeroText text="Napkins" textColor="#FF5900" />
             </div>
             <div className="font-bold md:text-6xl md:flex md:flex-row gap-16 sm:flex-col sm:text-3xl flex-col text-4xl">
               <p className="text-[#0070ae]">to</p>
