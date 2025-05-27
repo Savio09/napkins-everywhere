@@ -75,6 +75,12 @@ body {
   transition: color 0.2s ease-in-out;
 }
 
+@media screen and (max-width: 800px) {
+  .logo img {
+    height: 70px !important;
+  }
+}
+
 @keyframes customMarqueeAnimation {
   from {
     transform: translateX(0%);

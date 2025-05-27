@@ -32,7 +32,7 @@ const ScrollArrow = () => {
     }
   };
   return (
-    <div className=" mx-auto w-[100px]">
+    <div className=" mx-auto w-[100px] text-center">
       <button
         className="p-2 sm:p-3 rounded-full text-gray-600
                 hover:text-[#FF5900] hover:bg-white {/* Slight bg on hover */}
