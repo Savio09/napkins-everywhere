@@ -4,7 +4,15 @@ import { useStrapiData } from "@/hooks/useStrapiData";
 import { useMagazineData } from "@/components/context/magazineContext";
 export default function Magazine() {
   const { latestIssue, allMagazines, magazinesError } = useMagazineData();
-  console.log(latestIssue);
+
+  if (magazinesError) {
+    console.error("Could not load the magazine information.");
+  }
+
+  const img_url = latestIssue?.cover_img;
+  console.log(img_url);
+
+  print(latestIssue);
   return (
     <div>
       <section className="mg-header w-[85vw] mx-auto">
