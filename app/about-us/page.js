@@ -1,13 +1,34 @@
+import Image from 'next/image';
+
 export default function About() {
   return (
     <div className="bg-[#FFFFFF] min-h-screen px-8 py-12">
-      <p className="font-normal text-black text-[1.2rem] mb-12 ml-[10vw]">About Us</p>
-      <h1 className=" max-w-[600px] text-[#0171ad] text-[3.2rem] mb-10 ml-[10vw]">From Magazine to Interactive 
+      <p className="font-normal text-black text-[1rem] mb-12 ml-[10vw]">About Us</p>
+      <h1 className=" max-w-[600px] text-[#0171ad] text-[3.7rem] mb-25 ml-[10vw]">From Magazine to Interactive 
         Art: The Evolution of Napkins</h1>
-        
-      <p className="font-bold text-[1.2rem] mb-15 max-w-[600px]">Our story dates back 
-        to April of 2022, where four students from Minerva University came together 
-        to develop and share the beautiful stories of their classmates all around the world.</p>
+
+      <div className="grid gap-10 lg:grid-cols-2 items-center mb-24 ml-[10vw] mr-[10vw]">
+        {/* First row */}
+        <div className="w-full lg:w-[40vw] relative aspect-[4/5]">
+          <Image
+            src="/img/About_Us_1.jpg"
+            alt="drawing of a paper calendar with many deadlines and notes"
+            fill
+            style={{ objectFit: "contain" }}
+            className="rounded-lg"
+          />
+        </div>
+
+        {/* TEXT block */}
+        <div className="text-black">
+          <p className="text-[1.2rem] font-normal">
+            Our story dates back to April of 2022, where four students from Minerva University came together...
+          </p>
+        </div>
+      </div>
+
+
+
       <p className="font-bold text-[1.2rem] mb-15 max-w-[600px]">
       In August 2022, Napkins published its first issue and received overwhelmingly positive 
       feedback, both from students and professionals from outside the Minerva community.</p>
