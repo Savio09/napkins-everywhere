@@ -5,17 +5,22 @@ import { useMagazineData } from "@/components/context/magazineContext";
 import { createLocalImageURL } from "@/utils/urlConstruct";
 import Image from "next/image";
 import Link from "next/link";
+import CardIssues from "@/utils/CardIssues";
 export default function Magazine() {
-  const { latestIssue, allMagazines, magazinesError } = useMagazineData();
+  const { latestIssue, magazinesError } = useMagazineData();
+
+  const { data, error, fetchData } = useStrapiData(
+    "/api/magazines?populate=cover_img"
+  );
+
+  console.log(data);
 
   if (magazinesError) {
     console.error("Could not load the magazine information.");
   }
-  console.log(latestIssue);
+
   const img_url = createLocalImageURL(latestIssue?.cover_img[0]?.url);
   const latest_link_url = `http://localhost/magazines/${latestIssue?.slug}`;
-
-  console.log(latestIssue);
   return (
     <div>
       <section className="mg-header w-[85vw] mx-auto">
@@ -40,9 +45,18 @@ export default function Magazine() {
         </div>
         <div className="item-3">more issues down below</div>
       </section>
-      <div className="past-issues">
+      <div className="past-issues w-[85vw] mx-auto flex justify-between mt-10">
         <h1>Past Issues</h1>
-        <div className="grid-section"></div>
+        <div className="grid-section grid grid-cols-2 gap-20">
+          {data &&
+            data.data.map((magazine) => (
+              <CardIssues
+                key={magazine.id}
+                src={createLocalImageURL(magazine.cover_img[0].url)}
+                alt={magazine.issue_title}
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
