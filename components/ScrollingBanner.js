@@ -11,33 +11,36 @@ const ScrollingTextBanner = ({
 }) => {
   const bannerGap = "20px";
 
-  const generateDisplayItems = (itemArray) => {
-    if (!itemArray || itemArray.length === 0) {
-      return <span className="px-4 italic">No items to display</span>;
-    }
-    const repeatedItems = [];
-    const minRepetitions = Math.max(5, Math.ceil(30 / itemArray.length));
-    for (let i = 0; i < minRepetitions; i++) {
-      repeatedItems.push(...itemArray);
-    }
+  const displayContent = useMemo(() => {
+    const generateDisplayItems = (itemArray) => {
+      if (!itemArray || itemArray.length === 0) {
+        return <span className="px-4 italic">No items to display</span>;
+      }
+      const repeatedItems = [];
+      const minRepetitions = Math.max(5, Math.ceil(30 / itemArray.length));
+      for (let i = 0; i < minRepetitions; i++) {
+        repeatedItems.push(...itemArray);
+      }
 
-    return repeatedItems.map((item, index) =>
-      item && item.title && item.slug ? (
-        <Link
-          href={`${itemBaseLink}${item.slug}`}
-          key={`${item.slug}-${index}`}
-          className={`px-2 ${color}`}
-        >
-          {item.title}/
-        </Link>
-      ) : null
-    );
-  };
+      return repeatedItems.map((item, index) =>
+        item && item.title && item.slug ? (
+          <Link
+            href={
+              item.magazineSlug 
+                ? `${itemBaseLink}${item.magazineSlug}/${item.slug}`
+                : `${itemBaseLink}${item.slug}`
+            }
+            key={`${item.slug}-${index}`}
+            className={`px-2 ${color}`}
+          >
+            {item.title}/
+          </Link>
+        ) : null
+      );
+    };
 
-  const displayContent = useMemo(
-    () => generateDisplayItems(items),
-    [items, itemBaseLink]
-  );
+    return generateDisplayItems(items);
+  }, [items, itemBaseLink, color]);
 
   let animationDurationValue = "30s";
   if (speed === "slow") {
