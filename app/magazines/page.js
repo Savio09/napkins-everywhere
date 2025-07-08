@@ -15,7 +15,7 @@ export default function Magazine() {
     data: posts,
     error,
     fetchData,
-  } = useStrapiData("/api/magazines?populate=cover_img", true);
+  } = useStrapiData("/api/magazines?populate=cover_img&fields=*", true);
 
   console.log(posts);
 
@@ -28,7 +28,13 @@ export default function Magazine() {
   const firstIdx = lastIdx - postPerPage;
   let currentPost;
 
-  if (posts && posts.data) {
+  if (posts && posts.data && latestIssue) {
+    // Filter out the latest issue from the pagination
+    const pastIssues = posts.data.filter(
+      (magazine) => magazine.id !== latestIssue.id
+    );
+    currentPost = pastIssues.slice(firstIdx, lastIdx);
+  } else if (posts && posts.data) {
     currentPost = posts.data.slice(firstIdx, lastIdx);
   }
 
@@ -65,7 +71,7 @@ export default function Magazine() {
   }
 
   const img_url = createLocalImageURL(latestIssue?.cover_img[0]?.url);
-  const latest_link_url = `http://localhost/magazines/${latestIssue?.slug}`;
+  const latest_link_url = `http://localhost:3000/magazines/${latestIssue?.slug}`;
   return (
     <div>
       <section className="mg-header w-[85vw] mx-auto">
@@ -91,7 +97,9 @@ export default function Magazine() {
         <div className="item-3">more issues down below</div>
       </section>
       <div className="past-issues w-[85vw] mx-auto flex flex-col md:flex-row md:justify-between mt-30 gap-10">
-        <h1 className="text-4xl md:text-[8rem] text-[#0070ae] leading-tight">Past Issues</h1>
+        <h1 className="text-4xl md:text-[8rem] text-[#0070ae] leading-tight">
+          Past Issues
+        </h1>
         <div>
           {posts && (
             <>
@@ -123,6 +131,8 @@ export default function Magazine() {
                         slug={magazine.slug}
                         issueTitle={magazine.issue_title}
                         issueNumber={magazine.issue_number}
+                        pdfLink={magazine.pdf_link}
+                        epubLink={magazine.epub_link}
                       />
                     </div>
                   ))}
@@ -131,7 +141,13 @@ export default function Magazine() {
                * Create a little pagination button, which does not necessarily reload the page.
                */}
               <Paginate
-                totalPosts={posts.data.length}
+                totalPosts={
+                  posts && latestIssue
+                    ? posts.data.filter(
+                        (magazine) => magazine.id !== latestIssue.id
+                      ).length
+                    : posts?.data?.length || 0
+                }
                 postPerPage={postPerPage}
                 currentPage={currentPage}
                 nextpage={nextPage}

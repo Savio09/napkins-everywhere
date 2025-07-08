@@ -4,7 +4,7 @@ import Slideshow from "@/components/Slideshow";
 
 export default function ImagesAndTextRenderer({ entry, isVisible }) {
   const isSlideshow = entry.is_slide_show;
-  
+
   return (
     <div className="w-full">
       {entry.media_files && entry.media_files.length > 0 && (

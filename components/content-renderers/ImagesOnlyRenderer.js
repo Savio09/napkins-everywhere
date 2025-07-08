@@ -42,24 +42,20 @@ export default function ImagesOnlyRenderer({ entry, isVisible }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
           ) : (
-            // Multiple Images - Masonry Grid
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            // Multiple Images - Vertical Stack
+            <div className="space-y-6 mb-8">
               {entry.media_files.map((media, index) => (
                 <div 
                   key={media.id} 
-                  className={`group overflow-hidden rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl ${
-                    index === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                  }`}
+                  className="group overflow-hidden rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-xl"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <Image
                     src={createLocalImageURL(media.url)}
-                    width={600}
-                    height={400}
+                    width={1200}
+                    height={800}
                     alt={`${entry.title} - Image ${index + 1}`}
-                    className={`w-full object-cover transform transition-transform duration-700 group-hover:scale-110 ${
-                      index === 0 ? 'h-96 md:h-full' : 'h-48'
-                    }`}
+                    className="w-full h-auto object-contain transform transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </div>
               ))}
