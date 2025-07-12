@@ -93,7 +93,7 @@ This project is maintained by the Napkins editorial team at Minerva University. 
 ## Credits
 
 - **Original Design & Development**: Yuya Htet, Zhi Zhi
-- **Current Development**: Andrea Garcia, Fortune Declan
+- **Current Development**: Andrea Garcia, [Fortune Declan](https://declann.me)
 - **Organization**: Napkins Editorial Team, Minerva University
 
 ## License
