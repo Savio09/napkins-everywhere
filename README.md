@@ -1,4 +1,4 @@
-# Napkins Everywhere
+# Napkins Everywhere.
 
 A modern, responsive digital magazine platform for Minerva University's premier student-run arts and literary publication. This application provides an engaging, interactive experience for showcasing creative works, articles, and multimedia content.
 
@@ -74,7 +74,7 @@ The application will be available at `http://localhost:3000`
 ## Technology Stack
 
 - **Framework**: Next.js 15.3.2 with App Router
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS, Framer Motion
 - **Typography**: Inter, Playfair Display, JetBrains Mono
 - **Backend Integration**: Strapi CMS via REST API
 
