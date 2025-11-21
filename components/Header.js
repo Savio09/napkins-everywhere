@@ -24,7 +24,7 @@ const Header = () => {
         <div className="logo">
           <Link href="/">
             <Image
-              src="/napkins_logo.png"
+              src="/img/napkins_logo.png"
               width={70}
               height={70}
               alt="napkins-logo"
