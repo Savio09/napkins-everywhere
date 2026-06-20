@@ -21,7 +21,7 @@ function parseEventDate(dateString: string | null | undefined): Date {
 export default function EventsPage() {
   const { data: eventsData, error: eventsError } = useEvents();
 
-  const events = (eventsData?.data ?? []).sort(
+  const events = [...(eventsData?.data ?? [])].sort(
     (a, b) => parseEventDate(a.date).getTime() - parseEventDate(b.date).getTime(),
   );
 

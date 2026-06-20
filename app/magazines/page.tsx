@@ -39,8 +39,8 @@ export default function Magazine() {
     console.error("Could not load the magazine information.");
   }
 
-  const img_url = createLocalImageURL(latestIssue?.cover_img[0]?.url);
-  const latest_link_url = `/magazines/${latestIssue?.slug}`;
+  const img_url = latestIssue ? createLocalImageURL(latestIssue.cover_img[0]?.url) : null;
+  const latest_link_url = latestIssue ? `/magazines/${latestIssue.slug}` : null;
 
   return (
     <div>
@@ -49,23 +49,25 @@ export default function Magazine() {
           <HeroText text="Magazine" textColor="#0070ae" />
         </div>
       </section>
-      <section className="showcase-nw-mg w-[85vw] mx-auto flex-col md:flex md:flex-row">
-        <div className="item-1">
-          <p>Psst!</p>
-          <p>Our newest issue is out now!</p>
-        </div>
-        <div className="item-2">
-          <Link href={latest_link_url}>
-            <Image
-              src={img_url}
-              width={1000}
-              height={1000}
-              alt="a wallpaper with some cartoons on it"
-            />
-          </Link>
-        </div>
-        <div className="item-3">more issues down below</div>
-      </section>
+      {latestIssue && img_url && latest_link_url && (
+        <section className="showcase-nw-mg w-[85vw] mx-auto flex-col md:flex md:flex-row">
+          <div className="item-1">
+            <p>Psst!</p>
+            <p>Our newest issue is out now!</p>
+          </div>
+          <div className="item-2">
+            <Link href={latest_link_url}>
+              <Image
+                src={img_url}
+                width={1000}
+                height={1000}
+                alt="a wallpaper with some cartoons on it"
+              />
+            </Link>
+          </div>
+          <div className="item-3">more issues down below</div>
+        </section>
+      )}
       <div className="past-issues w-[85vw] mx-auto flex flex-col md:flex-row md:justify-between mt-30 gap-10">
         <h1 className="text-4xl md:text-[8rem] text-[#0070ae] leading-tight">Past Issues</h1>
         <div>
