@@ -1,24 +1,23 @@
-const Paginate = ({
-  totalPosts,
-  postPerPage,
-  currentPage,
-  nextpage,
-  prevpage,
-}) => {
+interface PaginateProps {
+  totalPosts: number;
+  postPerPage: number;
+  currentPage: number;
+  nextpage: (page: number) => void;
+  prevpage: (page: number) => void;
+}
+
+const Paginate = ({ totalPosts, postPerPage, currentPage, nextpage, prevpage }: PaginateProps) => {
   const totalPages = Math.ceil(totalPosts / postPerPage);
 
   return (
     <nav className="flex items-center justify-center gap-4 my-8">
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          prevpage(currentPage - 1);
-        }}
+        onClick={(e) => { e.preventDefault(); prevpage(currentPage - 1); }}
         disabled={currentPage === 1}
         className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 transform ${
           currentPage === 1
-            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-[#0070ae] text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg active:scale-95'
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-[#0070ae] text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg active:scale-95"
         }`}
       >
         <svg className="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,7 +25,7 @@ const Paginate = ({
         </svg>
         Previous
       </button>
-      
+
       <div className="flex items-center gap-2">
         <span className="px-4 py-2 bg-white rounded-lg shadow-md border-2 border-[#0070ae] text-[#0070ae] font-semibold">
           {currentPage}
@@ -36,17 +35,14 @@ const Paginate = ({
           {totalPages}
         </span>
       </div>
-      
+
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          nextpage(currentPage + 1);
-        }}
+        onClick={(e) => { e.preventDefault(); nextpage(currentPage + 1); }}
         disabled={currentPage === totalPages}
         className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 transform ${
           currentPage === totalPages
-            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-[#0070ae] text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg active:scale-95'
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-[#0070ae] text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg active:scale-95"
         }`}
       >
         Next

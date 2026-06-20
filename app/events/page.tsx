@@ -2,47 +2,36 @@
 import HeroText from "@/components/HeroText";
 import Image from "next/image";
 import Link from "next/link";
-import { useStrapiData } from "@/hooks/useStrapiData";
+import { useEvents } from "@/hooks/useStrapi";
 import { createLocalImageURL } from "@/utils/urlConstruct";
 
+const MONTH_INDEX: Record<string, number> = {
+  january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
+  july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
+};
+
+function parseEventDate(dateString: string | null | undefined): Date {
+  if (!dateString) return new Date(0);
+  const parts = dateString.toLowerCase().split(" ");
+  const month = MONTH_INDEX[parts[0]] ?? 0;
+  const year = parseInt(parts[1] ?? "2000") || 2000;
+  return new Date(year, month);
+}
+
 export default function EventsPage() {
-  const { data: eventsData, error: eventsError } = useStrapiData(
-    "/api/events?populate=featured_image&sort=createdAt:desc"
+  const { data: eventsData, error: eventsError } = useEvents();
+
+  const events = (eventsData?.data ?? []).sort(
+    (a, b) => parseEventDate(a.date).getTime() - parseEventDate(b.date).getTime(),
   );
-
-  console.log("Raw eventsData:", eventsData);
-  console.log("Events error:", eventsError);
-
-  // Parse dates like "November 2022" or "April 2023" and sort chronologically
-  const parseEventDate = (dateString) => {
-    if (!dateString) return new Date(0);
-    const months = {
-      january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
-      july: 6, august: 7, september: 8, october: 9, november: 10, december: 11
-    };
-    const parts = dateString.toLowerCase().split(' ');
-    const month = months[parts[0]] || 0;
-    const year = parseInt(parts[1]) || 2000;
-    return new Date(year, month);
-  };
-
-  const events = (eventsData?.data || []).sort((a, b) => {
-    return parseEventDate(a.date) - parseEventDate(b.date);
-  });
-
-  console.log("Sorted events:", events);
 
   if (eventsError) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-500 mb-4">
-            Error loading events
-          </h1>
+          <h1 className="text-2xl font-bold text-red-500 mb-4">Error loading events</h1>
           <p className="text-gray-600">Please try again later.</p>
-          <p className="text-sm text-gray-500 mt-2">
-            Check console for details. Make sure Strapi is running on port 1337
-          </p>
+          <p className="text-sm text-gray-500 mt-2">Make sure Strapi is running on port 1337</p>
         </div>
       </div>
     );
@@ -75,11 +64,7 @@ export default function EventsPage() {
                 : "/img/events/fractal.jpg";
 
               return (
-                <Link
-                  key={event.id}
-                  href={`/events/${event.slug}`}
-                  className="group block"
-                >
+                <Link key={event.id} href={`/events/${event.slug}`} className="group block">
                   <div className="flex flex-col h-full">
                     <div className="relative overflow-hidden mb-6">
                       <Image
@@ -91,9 +76,7 @@ export default function EventsPage() {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <h2 className="text-2xl font-bold mb-4 text-black">
-                        {event.title}
-                      </h2>
+                      <h2 className="text-2xl font-bold mb-4 text-black">{event.title}</h2>
                       <p className="text-gray-700 mb-2">{event.location}</p>
                       <p className="text-gray-700">{event.date}</p>
                     </div>

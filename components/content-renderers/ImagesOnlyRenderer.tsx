@@ -1,24 +1,26 @@
 import Image from "next/image";
 import { createLocalImageURL } from "@/utils/urlConstruct";
 import Slideshow from "@/components/Slideshow";
+import type { Entry } from "@/types/strapi";
 
-export default function ImagesOnlyRenderer({ entry, isVisible }) {
+interface ImagesOnlyRendererProps {
+  entry: Entry;
+  isVisible: Record<string, boolean>;
+}
+
+export default function ImagesOnlyRenderer({ entry, isVisible }: ImagesOnlyRendererProps) {
   const isSlideshow = entry.is_slide_show;
-  
+
   return (
     <div className="w-full">
-      {/* Main Image Gallery - Full Width */}
       {entry.media_files && entry.media_files.length > 0 && (
-        <div 
+        <div
           id="main-content"
           className={`animate-on-scroll transform transition-all duration-1000 delay-300 ${
-            isVisible['main-content'] 
-              ? 'opacity-100 translate-y-0' 
-              : 'opacity-0 translate-y-8'
+            isVisible["main-content"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           {isSlideshow ? (
-            // Slideshow Mode
             <div className="mb-8">
               <Slideshow
                 images={entry.media_files}
@@ -30,7 +32,6 @@ export default function ImagesOnlyRenderer({ entry, isVisible }) {
               />
             </div>
           ) : entry.media_files.length === 1 ? (
-            // Single Image - Full Width Hero
             <div className="relative group overflow-hidden rounded-lg shadow-2xl mb-8">
               <Image
                 src={createLocalImageURL(entry.media_files[0].url)}
@@ -42,11 +43,10 @@ export default function ImagesOnlyRenderer({ entry, isVisible }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
           ) : (
-            // Multiple Images - Vertical Stack
             <div className="space-y-6 mb-8">
               {entry.media_files.map((media, index) => (
-                <div 
-                  key={media.id} 
+                <div
+                  key={media.id}
                   className="group overflow-hidden rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-xl"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
@@ -61,11 +61,10 @@ export default function ImagesOnlyRenderer({ entry, isVisible }) {
               ))}
             </div>
           )}
-          
-          {/* Optional Caption/Description */}
+
           {entry.content && (
             <div className="max-w-4xl mx-auto">
-              <div 
+              <div
                 className="prose prose-lg text-gray-600 text-center italic leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: entry.content }}
               />

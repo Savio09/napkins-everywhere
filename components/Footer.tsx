@@ -6,9 +6,7 @@ export default function Footer() {
       <div className="cta-links">
         <ul className="flex gap-3 sm:gap-5 font-bold uppercase mb-8 text-[10px] sm:text-[1rem]">
           <li>
-            <Link href="#" className="">
-              submit to the magazine
-            </Link>
+            <Link href="#">submit to the magazine</Link>
           </li>
           <li>
             <Link href="#">join the team</Link>
@@ -18,8 +16,7 @@ export default function Footer() {
           </li>
         </ul>
         <p className="text-gray-600 font-bold">
-          website curated by Htet Yuya and maintained by Zhi Zhi Chia and Daria
-          Bassot
+          website curated by Htet Yuya and maintained by Zhi Zhi Chia and Daria Bassot
         </p>
       </div>
       <div className="email">

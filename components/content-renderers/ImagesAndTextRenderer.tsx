@@ -1,8 +1,14 @@
 import Image from "next/image";
 import { createLocalImageURL } from "@/utils/urlConstruct";
 import Slideshow from "@/components/Slideshow";
+import type { Entry } from "@/types/strapi";
 
-export default function ImagesAndTextRenderer({ entry, isVisible }) {
+interface ImagesAndTextRendererProps {
+  entry: Entry;
+  isVisible: Record<string, boolean>;
+}
+
+export default function ImagesAndTextRenderer({ entry, isVisible }: ImagesAndTextRendererProps) {
   const isSlideshow = entry.is_slide_show;
 
   return (
@@ -17,7 +23,6 @@ export default function ImagesAndTextRenderer({ entry, isVisible }) {
           }`}
         >
           {isSlideshow ? (
-            // Slideshow Mode
             <Slideshow
               images={entry.media_files}
               title={entry.title}
@@ -27,7 +32,6 @@ export default function ImagesAndTextRenderer({ entry, isVisible }) {
               className="w-full"
             />
           ) : (
-            // Single Featured Image Mode
             <div className="relative group overflow-hidden rounded-lg shadow-2xl">
               <Image
                 src={createLocalImageURL(entry.media_files[0].url)}
@@ -42,17 +46,13 @@ export default function ImagesAndTextRenderer({ entry, isVisible }) {
         </div>
       )}
 
-      {/* Content and Images Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content Column */}
         <div className="lg:col-span-2">
           {entry.content && (
             <div
               id="main-content"
               className={`animate-on-scroll transform transition-all duration-1000 delay-300 mb-8 ${
-                isVisible["main-content"]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                isVisible["main-content"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
               <div
@@ -63,15 +63,12 @@ export default function ImagesAndTextRenderer({ entry, isVisible }) {
           )}
         </div>
 
-        {/* Sidebar Images */}
         {!isSlideshow && entry.media_files && entry.media_files.length > 1 && (
           <div className="lg:col-span-1">
             <div
               id="sidebar-images"
               className={`animate-on-scroll transform transition-all duration-1000 delay-500 ${
-                isVisible["sidebar-images"]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                isVisible["sidebar-images"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
               <h3 className="text-lg font-bold text-[#0070ae] mb-4">Gallery</h3>
