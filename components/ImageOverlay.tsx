@@ -50,7 +50,7 @@ export default function ImageOverlay({
             href={latestIssueLink}
             className={
               linkText
-                ? "bg-[#FF5900] text-white py-3 px-6 rounded-full text-lg font-semibold transition-colors duration-300 inline-block lowercase"
+                ? "inline-flex items-center gap-2 text-white text-sm uppercase tracking-widest underline-offset-4 hover:underline transition-opacity hover:opacity-80"
                 : "mb-12"
             }
           >

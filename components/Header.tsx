@@ -14,7 +14,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 py-3 z-50 bg-white shadow-md">
+    <div className="sticky top-0 py-3 z-50 bg-white/95 backdrop-blur-sm border-b border-stone-100">
       <div className="flex justify-between h-[8vh] min-h-[60px] w-[90vw] items-center mx-auto">
         <div className="logo">
           <Link href="/">
@@ -28,10 +28,18 @@ const Header = () => {
           </Link>
         </div>
         <nav className="nav-links hidden md:flex">
-          <ul className="flex gap-x-6 lg:gap-x-10 uppercase font-bold text-sm">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="hover:text-blue-600 transition-colors">
+          <ul className="flex items-center uppercase tracking-widest text-xs font-medium">
+            {navLinks.map((link, i) => (
+              <li key={link.href} className="flex items-center">
+                {i > 0 && (
+                  <span aria-hidden="true" className="mx-4 text-stone-300 select-none">
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={link.href}
+                  className="transition-opacity hover:opacity-60 underline-offset-4 hover:underline"
+                >
                   {link.label}
                 </Link>
               </li>
@@ -75,12 +83,12 @@ const Header = () => {
 
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
-          <ul className="flex flex-col items-center gap-y-4 py-6 uppercase font-bold text-sm">
+          <ul className="flex flex-col items-center gap-y-6 py-8 uppercase tracking-widest text-xs font-medium">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="block px-4 py-2 hover:bg-gray-100 hover:text-blue-600 rounded-md transition-colors w-full text-center"
+                  className="block px-4 py-2 transition-opacity hover:opacity-60 w-full text-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

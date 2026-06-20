@@ -107,53 +107,10 @@ export default function Home() {
 
   return (
     <div className="landing-pg">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className="absolute w-96 h-96 bg-gradient-to-r from-orange-400/10 to-blue-400/10 rounded-full blur-3xl transition-all duration-700 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * 100}px, ${mousePosition.y * 100}px)`,
-            left: "10%",
-            top: "20%",
-          }}
-        />
-        <div
-          className="absolute w-64 h-64 bg-gradient-to-r from-blue-400/15 to-orange-400/15 rounded-full blur-2xl transition-all duration-1000 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * -80}px, ${mousePosition.y * -80}px)`,
-            right: "15%",
-            top: "40%",
-          }}
-        />
-      </div>
-
       <section
         ref={heroRef}
         className="mouse-animation relative z-10 min-h-screen flex items-center justify-center overflow-hidden"
       >
-        <div
-          className="absolute inset-0 opacity-30 transition-transform duration-500 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * 40}px, ${mousePosition.y * 40}px)`,
-            backgroundImage: `
-              radial-gradient(circle at 20% 50%, #FF5900 4px, transparent 4px),
-              radial-gradient(circle at 80% 50%, #0070ae 3px, transparent 3px),
-              radial-gradient(circle at 60% 30%, #FF5900 2px, transparent 2px),
-              radial-gradient(circle at 40% 70%, #0070ae 2px, transparent 2px)
-            `,
-            backgroundSize: "100px 100px, 150px 150px, 60px 60px, 80px 80px",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-20 transition-transform duration-700 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * -25}px, ${mousePosition.y * -25}px)`,
-            backgroundImage: `
-              linear-gradient(45deg, #FF5900 1px, transparent 1px),
-              linear-gradient(-45deg, #0070ae 1px, transparent 1px)
-            `,
-            backgroundSize: "30px 30px, 40px 40px",
-          }}
-        />
 
         <section
           id="hero-content"
@@ -222,7 +179,6 @@ export default function Home() {
             }`}
           >
             <h1
-              style={{ lineHeight: "8rem" }}
               className={`text-headline-1 max-w-[600px] mb-10 transform transition-translateY duration-1200 delay-200 ${
                 isVisible["greet-section"]
                   ? "opacity-100 translate-y-0"
@@ -232,7 +188,7 @@ export default function Home() {
               Welcome to Napkins!
             </h1>
             <p
-              className={`text-body-large font-medium mb-15 max-w-[600px] transform transition-opacity duration-1000 delay-400 ${
+              className={`text-body-large mb-15 max-w-[600px] transform transition-opacity duration-1000 delay-400 ${
                 isVisible["greet-section"]
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -249,21 +205,12 @@ export default function Home() {
                   : "opacity-0 translate-y-8"
               }`}
             >
-              <button className="premium-button group relative overflow-hidden bg-[#0071ad] text-white py-4 px-10 rounded-full transition-all duration-500 ease-out transform hover:scale-105 hover:shadow-2xl">
-                <span className="absolute inset-0 bg-gradient-to-r from-[#FF5900] to-[#0071ad] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                <span className="relative z-10 text-body font-medium flex items-center gap-2">
-                  <Link href="/about-us" className="flex items-center gap-2">
-                    Learn more about us
-                    <span
-                      className="transform transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    >
-                      →
-                    </span>
-                  </Link>
-                </span>
-                <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              </button>
+              <Link
+                href="/about-us"
+                className="inline-flex items-center gap-2 text-sm uppercase tracking-widest underline-offset-4 hover:underline transition-opacity hover:opacity-70"
+              >
+                Learn more about us →
+              </Link>
             </div>
           </div>
           <div
@@ -273,16 +220,15 @@ export default function Home() {
                 : "opacity-0 translate-x-12 scale-95"
             }`}
           >
-            <div className="group relative overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-700 hover:scale-105 hover:rotate-1">
+            <div className="relative overflow-hidden">
               <Image
                 src="/img/greet-img.jpg"
                 width={500}
                 height={500}
                 alt="a portrait image of a napkin place on a lining"
-                className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover"
                 style={{ height: "100%", width: "100%", objectFit: "cover" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           </div>
         </div>
@@ -309,24 +255,9 @@ export default function Home() {
 
       <section
         id="stories-section"
-        className="stories py-20 animate-on-scroll relative overflow-hidden"
+        className="stories py-20 animate-on-scroll"
       >
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div
-            className={`absolute w-32 h-32 bg-orange-400/5 rounded-full blur-xl transition-all duration-2000 ${
-              isVisible["stories-section"] ? "opacity-100 scale-100" : "opacity-0 scale-50"
-            }`}
-            style={{ left: "10%", top: "20%" }}
-          />
-          <div
-            className={`absolute w-24 h-24 bg-blue-400/5 rounded-full blur-lg transition-all duration-2000 delay-300 ${
-              isVisible["stories-section"] ? "opacity-100 scale-100" : "opacity-0 scale-50"
-            }`}
-            style={{ right: "15%", bottom: "30%" }}
-          />
-        </div>
-
-        <div className="w-[85vw] mx-auto relative z-10">
+        <div className="w-[85vw] mx-auto">
           <h3
             className={`text-headline-3 mb-10 transform transition-all duration-1000 ${
               isVisible["stories-section"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -375,14 +306,6 @@ export default function Home() {
           0% { opacity: 0; transform: translateY(30px) rotateX(45deg); }
           100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
-        .premium-button {
-          position: relative;
-          background: linear-gradient(135deg, #0071ad 0%, #005a8b 100%);
-          box-shadow: 0 8px 32px rgba(0, 113, 173, 0.3);
-        }
-        .premium-button:hover {
-          box-shadow: 0 12px 48px rgba(0, 113, 173, 0.4), 0 4px 16px rgba(255, 89, 0, 0.2);
-        }
         .stories-banner-wrapper {
           position: relative;
           overflow: hidden;
@@ -391,7 +314,7 @@ export default function Home() {
           content: "";
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 90%, rgba(255,255,255,1) 100%);
+          background: linear-gradient(90deg, rgba(250,249,247,1) 0%, rgba(250,249,247,0) 10%, rgba(250,249,247,0) 90%, rgba(250,249,247,1) 100%);
           pointer-events: none;
           z-index: 10;
         }
