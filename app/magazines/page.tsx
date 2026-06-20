@@ -50,22 +50,23 @@ export default function Magazine() {
         </div>
       </section>
       {latestIssue && img_url && latest_link_url && (
-        <section className="showcase-nw-mg w-[85vw] mx-auto flex-col md:flex md:flex-row">
-          <div className="item-1">
+        <section className="showcase-nw-mg w-[85vw] mx-auto flex flex-col md:flex-row gap-6 items-start py-10">
+          <div className="item-1 flex-none md:w-28 text-sm text-stone-500 md:pt-4">
             <p>Psst!</p>
             <p>Our newest issue is out now!</p>
           </div>
-          <div className="item-2">
+          <div className="item-2 flex-1">
             <Link href={latest_link_url}>
               <Image
                 src={img_url}
                 width={1000}
                 height={1000}
                 alt="a wallpaper with some cartoons on it"
+                className="w-full h-auto"
               />
             </Link>
           </div>
-          <div className="item-3">more issues down below</div>
+          <div className="item-3 flex-none md:w-28 text-sm text-stone-500 md:pt-4 md:text-right">more issues down below</div>
         </section>
       )}
       <div className="past-issues w-[85vw] mx-auto flex flex-col md:flex-row md:justify-between mt-30 gap-10">
