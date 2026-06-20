@@ -9,8 +9,8 @@ interface HeroTextProps {
 export default function HeroText({ text, textColor, style }: HeroTextProps) {
   return (
     <h1
-      style={style}
-      className={`font-display text-[4rem] sm:text-[6rem] lg:text-[12rem] text-[${textColor}] font-bold italic`}
+      style={{ color: textColor, ...style }}
+      className="font-display text-[4rem] sm:text-[6rem] lg:text-[12rem] font-bold italic"
     >
       {text}
     </h1>

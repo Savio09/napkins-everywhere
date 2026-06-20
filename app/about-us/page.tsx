@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <div className="bg-[#FFFFFF] min-h-screen px-8 py-12">
+    <div className="min-h-screen px-8 py-12">
       <p className="font-normal text-black text-[1rem] mb-12 ml-[5vw]">About Us</p>
       <h1 className="max-w-[600px] text-[#0171ad] text-[3.7rem] mb-25 ml-[5vw]">
         From Magazine to Interactive Art: The Evolution of Napkins
