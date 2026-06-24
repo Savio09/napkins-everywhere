@@ -6,18 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "type-check": "tsc --noEmit",
+    "lint": "biome lint ./app ./components ./hooks ./utils",
+    "format": "biome format --write ./app ./components ./hooks ./utils",
+    "check": "biome check --apply ./app ./components ./hooks ./utils"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "next": "^16.2.9",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.2"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@tailwindcss/postcss": "^4",
+    "@tanstack/react-query-devtools": "^5.0.0",
+    "@types/node": "22.19.21",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "^19.0.0",
     "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.2",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5.7.3"
+  },
+  "allowScripts": {
+    "@biomejs/biome@1.9.4": true,
+    "@tailwindcss/oxide@4.1.7": true,
+    "sharp@0.34.5": true
   }
 }
